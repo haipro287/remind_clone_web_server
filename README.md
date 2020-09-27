@@ -1,2 +1,7 @@
-# honyomi_web_server
-A manga reader API server.
+# Remind Clone Web Server
+
+## Start development server
+
+```sh
+npm run dev
+```
