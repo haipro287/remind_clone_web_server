@@ -8,6 +8,8 @@ const fs = require("fs");
 const path = require("path");
 const _ = require("lodash");
 const ROUTER_REGEXP = require("../config").Regex.ROUTER_REGEXP;
+const debug = require("debug")("remind-clone:server");
+const responseUtil = require("../utils/responseUtils");
 
 try {
   let routeName;
@@ -17,6 +19,12 @@ try {
       router.use(routeName, require(path.join(__dirname, fileName)));
     }
   });
+
+  router.use((err, req, res, next) => {
+    debug(err);
+    return responseUtil.error(res, err.status, err.httpMessage);
+  });
+
 } catch (err) {
   console.error(err);
 }

@@ -21,13 +21,20 @@ exports.createToken = (payload) => {
   });
 };
 
-auth.verifyToken = (token) => {
+exports.createUserToken = (user) => {
+  return exports.createToken({
+    id: user.id,
+    role: user.role,
+  });
+};
+
+exports.verifyToken = (token) => {
   return jwt.verify(token, secretOrKey);
 };
 
-auth.jwtAuth = () => {
+exports.jwtAuth = () => {
   return passport.authenticate("jwt", { session: false });
 };
 
 // TODO: Implement socket authentication
-auth.socketAuth = () => {};
+exports.socketAuth = () => {};
