@@ -1,5 +1,4 @@
 const ErrMessage = require("../config").HTTPErrorMessage;
-const debug = require("debug")("remind-clone:server");
 
 exports.error = (res, code = 500, message = ErrMessage.DEFAULT) => {
   res.set("Content-Type", "application/problem+json");

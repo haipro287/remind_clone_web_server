@@ -20,11 +20,11 @@ try {
     }
   });
 
+  // TODO: Find a better way to format error object to client
   router.use((err, req, res, next) => {
     debug(err);
     return responseUtil.error(res, err.status, err.httpMessage);
   });
-
 } catch (err) {
   console.error(err);
 }
