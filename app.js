@@ -5,12 +5,13 @@ const logger = require("morgan");
 const api = require("./routers");
 const helmet = require("helmet");
 const app = express();
+const COOKIE_SECRET = require("./config").COOKIE_SECRET;
 
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", api);

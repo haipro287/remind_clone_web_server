@@ -7,3 +7,5 @@ exports.Regex = {
 exports.HTTPErrorMessage = {
   DEFAULT: "Something went wrong",
 };
+
+exports.COOKIE_SECRET = process.env.COOKIE_SECRET || "abcxyz";
