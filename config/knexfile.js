@@ -1,4 +1,5 @@
 // Database connection configuration
+const path = require("path");
 
 module.exports = {
   development: {
@@ -13,6 +14,12 @@ module.exports = {
     pool: {
       min: 2,
       max: 10,
+    },
+    migrations: {
+      directory: path.join(__dirname, "../databases/migrations"),
+    },
+    seeds: {
+      directory: path.join(__dirname, "../databases/seeds/development"),
     },
   },
   staging: {},
