@@ -64,27 +64,29 @@ class MessageNamespace {
    * @param {NewMessageHandlerCallback} fn - Notify sender that the message has been received
    * @private
    */
-  async _newMessageHandler(message, fn) {
+  async _newMessageHandler(message, fn = function (err, msg) {}) {
     let broadcastMessage = {
       sender: message.sender,
-      message: message.message.richText || message.message.text,
+      message: message.message || message.messageText,
+      messageText: message.messageText,
       createdAt: message.createdAt,
-      conversationId: message.conversation.id,
+      conversationId: message.conversationId,
       canReply: message.canReply || true,
       attachment: message.attachment,
     };
     //TODO: Implement scheduled message
-    // if (fn) fn(null, broadcastMessage);
+    if (fn) fn(null, broadcastMessage);
     try {
       let newMessage = await messageService.insertMessage({
         sender_id: message.sender.id,
-        conversation_id: message.conversation.id, //TODO: check if the user is in that conversation
-        message: message.message.richText || message.message.text,
-        message_text: message.message.text,
+        conversation_id: message.conversationId, //TODO: check if the user is in that conversation
+        message: message.message || message.messageText,
+        message_text: message.messageText,
         attachment_id: message.attachment ? message.attachment.id : undefined,
       });
       broadcastMessage.id = newMessage.id;
       let convoChannel = `convo#${broadcastMessage.conversationId}`;
+      console.log(newMessage, broadcastMessage);
       this.nsp.in(convoChannel).emit(event.NEW_MESSAGE, broadcastMessage);
     } catch (err) {
       debug(err);

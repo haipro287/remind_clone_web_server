@@ -15,7 +15,8 @@ class User extends Model {
         "user.id",
         "user.name",
         "user.email",
-        "user.role_id"
+        "user.role_id",
+        "user.avatar_url"
       );
     },
 
@@ -26,13 +27,14 @@ class User extends Model {
           "user.name",
           "user.email",
           "user.password",
+          "user.avatar_url",
           "role.name as role"
         )
         .innerJoin("role", "user.role_id", "role.id");
     },
 
     idAndName(builder) {
-      return builder.select("id", "name");
+      return builder.select("id", "name", "avatar_url");
     },
   };
 
