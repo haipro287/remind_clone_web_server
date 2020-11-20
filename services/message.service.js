@@ -17,6 +17,7 @@ exports.getConversationMessages = (conversationId) => {
       "message.id",
       "conversation_id as conversationId",
       "message",
+      "message.message_text as messageText",
       "message.created_at as createdAt"
     )
     .where("conversation_id", conversationId)

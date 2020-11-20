@@ -52,7 +52,8 @@ exports.getUserConversations = (userId, classroomId) => {
       knex.raw(
         "coalesce(c.name, group_concat(u.name separator ', ')) as conversation_name"
       ),
-      "c.type"
+      "c.type",
+      "c.classroom_id"
     )
     .innerJoin({ c: "conversation" }, "c.id", "p.conversation_id")
     .innerJoin({ u: "user" }, "u.id", "p.user_id")
@@ -65,3 +66,12 @@ exports.getUserConversations = (userId, classroomId) => {
   query = query.groupBy("c.id");
   return query;
 };
+
+/**
+ * 
+ * @param {Number} user1Id 
+ * @param {Number} user2Id 
+ */
+exports.getTwoUsersConvo = (user1Id, user2Id) => {
+
+}
