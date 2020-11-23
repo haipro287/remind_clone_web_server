@@ -49,7 +49,15 @@ function getOwners(classroom) {
  * @param {Classroom}classroom
  */
 function getStudents(classroom) {
-  return classroom.$relatedQuery("students").where('status', 'Accepted');
+  return classroom.$relatedQuery("students");
+}
+
+/**
+ * Get ALL MEMBERS of a classroom, including pending and declined members.
+ * @param {Classroom} classroom
+ */
+function getAllMembers(classroom) {
+  return classroom.$relatedQuery("all_members");
 }
 
 /**
@@ -130,4 +138,5 @@ module.exports = {
   leaveClassroom,
   getClassroomOwner,
   getClassroomJoined,
+  getAllMembers,
 };

@@ -55,25 +55,25 @@ class User extends Model {
     classroom_owner: {
       relation: Model.ManyToManyRelation,
       modelClass: path.join(__dirname, "Classroom"),
-      filter: query => query.select("id", "code", "name", "school"),
+      filter: query => query.select("id", "code", "name", "school").where("type", "Owner"),
       join: {
         from: "user.id",
         through: {
-          from: "class_owner.teacher_id",
-          to: "class_owner.classroom_id"
+          from: "m_user_classroom.user_id",
+          to: "m_user_classroom.classroom_id"
         },
-        to: "classroom.id",
+        to: "classroom.id"
       }
     },
     classroom_joined: {
       relation: Model.ManyToManyRelation,
       modelClass: path.join(__dirname, "Classroom"),
-      filter: query => query.select("id", "code", "name", "school"),
+      filter: query => query.select("id", "code", "name", "school").where("type", "Member"),
       join: {
         from: "user.id",
         through: {
-          from: "m_student_classroom.student_id",
-          to: "m_student_classroom.classroom_id"
+          from: "m_user_classroom.user_id",
+          to: "m_user_classroom.classroom_id"
         },
         to: "classroom.id"
       }
