@@ -6,7 +6,12 @@ exports.up = function (knex) {
       t.integer("user_id").unsigned();
       t.integer("classroom_id").unsigned();
       t.date("joined_date");
-      t.enu("type", ["Owner", "Member"]).defaultTo("Member");
+      t.enu("type", [
+        "Owner",
+        "Member",
+        "PendingMember",
+        "DeclinedMember",
+      ]).defaultTo("Member");
       t.foreign("user_id").references("user.id");
       t.foreign("classroom_id").references("classroom.id");
     });
@@ -18,6 +23,9 @@ exports.down = function (knex) {
       t.integer("student_id").unsigned();
       t.integer("classroom_id").unsigned();
       t.date("joined_date");
+      t.enu("status", ["Pending", "Accepted", "Declined"]).defaultTo(
+        "Accepted"
+      );
       t.foreign("student_id").references("user.id");
       t.foreign("classroom_id").references("classroom.id");
       t.unique(["student_id", "classroom_id"]);

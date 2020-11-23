@@ -169,6 +169,16 @@ const leaveClassroom = async (req, res, next) => {
   }
 };
 
+const getAllMembers = async (req, res, next) => {
+  try {
+    const classroom = req.classroom;
+    const members = await classroomService.getAllMembers(classroom);
+    return responseUtil.success(res, 200, members);
+  } catch (err) {
+    next(err);
+  }
+};
+
 function generateCode(length) {
   var result = "";
   var characters =
@@ -193,4 +203,5 @@ module.exports = {
   joinClassroom,
   leaveClassroom,
   joinClassroomViaCode,
+  getAllMembers,
 };
