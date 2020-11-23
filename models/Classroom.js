@@ -55,7 +55,8 @@ class Classroom extends Model {
     all_members: {
       relation: Model.ManyToManyRelation,
       modelClass: User,
-      filter: (query) => query.select("id", "name", "email", "type"),
+      filter: (query) =>
+        query.select("id", "name", "email", "type", "joined_date"),
       join: {
         from: "classroom.id",
         through: {
