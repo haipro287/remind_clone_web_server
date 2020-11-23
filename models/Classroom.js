@@ -29,12 +29,12 @@ class Classroom extends Model {
     owner: {
       relation: Model.ManyToManyRelation,
       modelClass: User,
-      filter: query => query.select("id", "name", "email"),
+      filter: query => query.select("id", "name", "email").where("type", "Owner"),
       join: {
         from: "classroom.id",
         through: {
-          from: "class_owner.classroom_id",
-          to: "class_owner.teacher_id"
+          from: "m_user_classroom.classroom_id",
+          to: "m_user_classroom.user_id"
         },
         to: "user.id"
       }
@@ -42,12 +42,12 @@ class Classroom extends Model {
     students: {
       relation: Model.ManyToManyRelation,
       modelClass: User,
-      filter: query => query.select("id", "name", "email"),
+      filter: query => query.select("id", "name", "email").where("type", "Member"),
       join: {
         from: "classroom.id",
         through: {
-          from: "m_student_classroom.classroom_id",
-          to: "m_student_classroom.student_id"
+          from: "m_user_classroom.classroom_id",
+          to: "m_user_classroom.user_id"
         },
         to: "user.id"
       }
