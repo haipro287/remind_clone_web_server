@@ -48,7 +48,7 @@ class Conversation extends Model {
           from: "conversation.id",
           through: {
             from: "participant.conversation_id",
-            to: "partiticipant.user_id",
+            to: "participant.user_id",
           },
           to: "user.id",
         },

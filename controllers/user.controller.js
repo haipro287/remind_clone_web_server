@@ -45,9 +45,13 @@ exports.registerController = async (req, res, next) => {
 };
 
 exports.conversationController = async (req, res, next) => {
+  const { classroomId } = req.query;
   const currentUser = req.user;
   try {
-    let conversations = await userService.getUserConversations(currentUser.id);
+    let conversations = await userService.getUserConversations(
+      currentUser.id,
+      classroomId
+    );
     return responseUtil.success(res, 200, conversations);
   } catch (err) {
     next(err);
@@ -60,6 +64,25 @@ exports.getUserProfile = async (req, res, next) => {
     let data = await loggedInUser.$query().modify("includeRole");
     delete data.password;
     return responseUtil.success(res, 200, data);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+/**
+ * Validate and refresh user token
+ * @route /user/validate
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {Express.NextFunction} next 
+ */
+exports.validateToken = async (req, res, next) => {
+  try {
+    let loggedInUser = req.user;
+    let user = await loggedInUser.$query().modify("includeRole");
+    delete user.password;
+    let token = auth.createUserToken(user);
+    return responseUtil.success(res, 200, { user, token });
   } catch (err) {
     return next(err);
   }

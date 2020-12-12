@@ -9,6 +9,12 @@ exports.listen = (httpServer) => {
 
   io.on("connection", (socket) => {
     socket.send("socket.io setup success");
+
+    socket.on("echo", (message, fn) => {
+      socket.emit("echo", message);
+      io.emit("echo", "TELL ME!!!");
+      fn();
+    });
   });
 
   messageNsp.use(socketAuth);
