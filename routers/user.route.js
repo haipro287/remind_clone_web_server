@@ -1,24 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const responseUtil = require("../utils/responseUtils");
+const auth = require("../config/auth");
+const { HTTPErrorMessage } = require("../config");
+const userController = require("../controllers/user.controller");
+const passport = require("passport");
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  return responseUtil.success(
-    res,
-    200,
-    `respond with a resource to ${req.connection.remoteAddress}`
-  );
-});
+router.post("/auth/login", userController.loginController);
 
-router.get("/err", (req, res, next) => {
-  try {
-    throw new Error("Some kind of error");
-  } catch (err) {
-    err.status = 409;
-    err.httpMessage = "That's suck...";
-    next(err);
-  }
-});
+router.post("/auth/register", userController.registerController);
+
+router.get(
+  "/conversations",
+  auth.jwtAuth(),
+  userController.conversationController
+);
+
+router.get("/profile", auth.jwtAuth(), userController.getUserProfile);
+
+router.put("/password", auth.jwtAuth(), userController.updatePassword);
+
+router.get("/validate", auth.jwtAuth(), userController.validateToken);
 
 module.exports = router;
